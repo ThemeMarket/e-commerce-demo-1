@@ -19,6 +19,9 @@ module.exports = {
           950: "#172554",
         },
       },
+      screens: {
+        xs: "512px",
+      },
     },
     fontFamily: {
       body: [

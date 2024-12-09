@@ -1,6 +1,199 @@
 <header>
   <app-navbar />
 </header>
-<main class="p-6">
+<main class="p-6 max-w-screen-xl mx-auto">
+  <section class="grid place-content-center lg:grid-cols-2 gap-4 lg:py-32">
+    <article
+      class="flex flex-col max-w-3xl lg:max-w-xl lg:mx-auto gap-2 space-y-2"
+    >
+      <h1 class="text-white font-bold text-4xl sm:text-5xl lg:text-7xl">
+        Shop Computer & Accesories
+      </h1>
+      <p class="text-lg md:text-xl text-gray-300 font-semibold">
+        Shop laptops, desktops, monitors, tablets, PC gaming, hard drives and
+        storage, accesories and more.
+      </p>
+      <button
+        class="text-white focus:ring-4 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 hover:bg-gray-700 focus:outline-none focus:ring-gray-600 border border-gray-600 w-fit"
+      >
+        View More
+      </button>
+    </article>
+    <article id="offers-carousel" class="mt-6 relative" data-carousel="slide">
+      <!-- Carousel wrapper -->
+      <div class="relative h-56 sm:h-96 overflow-hidden">
+        @for (productOffer of productsOffers; track $index) {
+        <div
+          class="sm:mt-24 hidden duration-700 ease-in-out"
+          data-carousel-item
+        >
+          <app-product-offer [product]="productOffer" />
+        </div>
+        }
+      </div>
+      <!-- Slider controls -->
+      <button
+        aria-label="Carouser Previous Button"
+        type="button"
+        class="absolute top-0 start-0 z-30 flex items-center justify-center h-full sm:px-4 cursor-pointer group focus:outline-none"
+        data-carousel-prev
+      >
+        <span
+          class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-800 group-hover:bg-gray-700 group-focus:ring-4 group-focus:ring-gray-600 group-focus:outline-none"
+        >
+          <svg
+            class="w-4 h-4 text-white rtl:rotate-180"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 6 10"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 1 1 5l4 4"
+            />
+          </svg>
+          <span class="sr-only">Previous</span>
+        </span>
+      </button>
+      <button
+        aria-label="Carouser Next Button"
+        type="button"
+        class="absolute top-0 end-0 z-30 flex items-center justify-center h-full sm:px-4 cursor-pointer group focus:outline-none"
+        data-carousel-next
+      >
+        <span
+          class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-800 group-hover:bg-gray-700 group-focus:ring-4 group-focus:ring-gray-600 group-focus:outline-none"
+        >
+          <svg
+            class="w-4 h-4 text-white rtl:rotate-180"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 6 10"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m1 9 4-4-4-4"
+            />
+          </svg>
+          <span class="sr-only">Next</span>
+        </span>
+      </button>
+    </article>
+  </section>
+  <section class="space-y-8">
+    <article class="flex items-baseline justify-between my-2 text-white">
+      <h2 class="font-bold text-xl sm:text-2xl md:text-4xl">
+        Shop by categories
+      </h2>
+      <a
+        class="text-base md:text-lg inline-flex items-center gap-2 text-white font-semibold hover:text-blue-500"
+      >
+        Browse All
+        <svg
+          class="size-4"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 512 512"
+        >
+          <path
+            d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z"
+          /></svg
+      ></a>
+    </article>
+    <article
+      class="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center"
+    >
+      @for (category of categories; track $index) {
+      <div class="bg-gray-800 p-6 max-w-xs rounded-md space-y-4">
+        <div class="">
+          <img
+            class="size-80 object-contain object-center hover:scale-105 transition-transform"
+            [src]="category.img"
+            alt="Category Image"
+          />
+        </div>
+        <h3 class="font-bold text-white text-base lg:text-lg">
+          {{ category.name }}
+        </h3>
+      </div>
+      }
+    </article>
+    <article class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      @for (promo of promos; track $index) {
+      <div class="rounded-md bg-gray-800 flex justify-between">
+        <div class="flex flex-col max-w-xs justify-center p-6">
+          <h2 class="text-white font-bold text-xl">{{ promo.name }}</h2>
+          <p class="text-gray-300 text-pretty text-sm">
+            {{ promo.description }}
+          </p>
+          <a
+            class="text-sm mt-2 inline-flex items-center gap-2 text-gray-300 hover:text-blue-500"
+          >
+            See More
+            <svg
+              class="size-4"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 512 512"
+            >
+              <path
+                d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z"
+              /></svg
+          ></a>
+        </div>
+        <div class="relative size-28 sm:size-32 overflow-hidden">
+          <img
+            [src]="promo.img"
+            class="absolute -right-4 sm:-right-8 size-28 sm:size-32 aspect-square object-center"
+            alt="Promo Image"
+          />
+        </div>
+      </div>
+      }
+    </article>
+  </section>
+  <section class="space-y-8 my-16">
+    <h2 class="font-bold text-white text-2xl md:text-3xl lg:text-4xl">
+      Most Popular Products
+    </h2>
+    <div
+      class="my-8 grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+    >
+      @for (product of productsOffers; track $index) {
+      <app-product-card [product]="product" />
+      <app-product-card [product]="product" />
+      }
+    </div>
+  </section>
+  <section class="my-8 rounded-md bg-gray-800 p-6">
+    <div class="flex justify-between gap-4 max-w-screen-lg mx-auto">
+      <div class="space-y-4 max-w-lg">
+        <h2 class="text-white font-bold text-2xl md:text-4xl lg:text-6xl">
+          Subscribe to the news
+        </h2>
+        <p class="text-gray-200 text-xl text-pretty">
+          Be aware of all discounts and bargains! Don't miss your benefit!
+        </p>
+        <button
+          class="text-white focus:ring-4 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 hover:bg-gray-700 focus:outline-none focus:ring-gray-600 border border-gray-600 w-fit"
+        >
+          Subscribe
+        </button>
+      </div>
+      <img
+        class="flex-1 hidden sm:flex size-40 md:size-48 lg:size-72 object-contain object-center"
+        src="/img/thumb-up.webp"
+        alt="Person Image"
+      />
+    </div>
+  </section>
 </main>
 <app-footer />
