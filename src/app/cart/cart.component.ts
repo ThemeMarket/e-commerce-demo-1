@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { NavbarComponent } from '../shared/components/navbar/navbar.component';
-import { FooterComponent } from '../shared/components/footer/footer.component';
 import { initFlowbite } from 'flowbite';
+import { BaseLayoutComponent } from '../shared/components/base-layout/base-layout.component';
 
 @Component({
   selector: 'app-cart',
-  imports: [NavbarComponent, FooterComponent],
+  imports: [BaseLayoutComponent],
   templateUrl: './cart.component.html',
 })
 export class CartComponent implements OnInit {
