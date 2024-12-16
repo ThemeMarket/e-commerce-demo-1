@@ -1,9 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { BaseLayoutComponent } from "../shared/components/base-layout/base-layout.component";
 
 @Component({
   selector: 'app-products',
-  imports: [],
+  imports: [BaseLayoutComponent],
   templateUrl: './products.component.html',
 })
 export class ProductsComponent implements OnInit {
