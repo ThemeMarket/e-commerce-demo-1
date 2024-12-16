@@ -1,6 +1,6 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { BaseLayoutComponent } from "../shared/components/base-layout/base-layout.component";
+import { Component, input, OnInit } from '@angular/core';
+import { BaseLayoutComponent } from '../shared/components/base-layout/base-layout.component';
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-products',
@@ -8,14 +8,9 @@ import { BaseLayoutComponent } from "../shared/components/base-layout/base-layou
   templateUrl: './products.component.html',
 })
 export class ProductsComponent implements OnInit {
-  private readonly route = inject(ActivatedRoute);
-  category: string | null = null;
+  category = input<string>('');
 
   ngOnInit(): void {
-    this.route.queryParamMap.subscribe({
-      next: (params: ParamMap) => {
-        this.category = params.get('category');
-      },
-    });
+    initFlowbite();
   }
 }
