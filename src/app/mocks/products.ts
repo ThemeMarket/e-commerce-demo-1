@@ -1,4 +1,4 @@
-import { Product } from '../shared/models/product';
+import { Product, ProductCategory } from '../shared/models/product';
 
 export const PRODUCTS_MOCK: Product[] = [
   {
@@ -10,6 +10,8 @@ export const PRODUCTS_MOCK: Product[] = [
     reviews: 1270,
     price: 125.0,
     previousPrice: 250.0,
+    category: ProductCategory.HEADPHONES,
+    rating: 3.5,
   },
   {
     id: '67c0e7f9-c6e0-492d-8c66-34f58c928b4e',
@@ -20,6 +22,8 @@ export const PRODUCTS_MOCK: Product[] = [
     reviews: 2540,
     price: 399.0,
     previousPrice: 599.99,
+    category: ProductCategory.LAPTOPS,
+    rating: 5,
   },
   {
     id: 'a8829479-117a-4096-b5dd-55eddfc243f3',
@@ -30,5 +34,7 @@ export const PRODUCTS_MOCK: Product[] = [
     reviews: 324,
     price: 69.99,
     previousPrice: 100,
+    category: ProductCategory.HEADPHONES,
+    rating: 4.8,
   },
 ];

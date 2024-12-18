@@ -12,6 +12,7 @@
         <h3 class="text-lg font-normal text-gray-500">Filters</h3>
         <button
           type="button"
+          (click)="setSelectedValues()"
           class="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-100 hover:text-gray-900"
           data-modal-toggle="filterModal"
         >
@@ -85,9 +86,12 @@
               <div class="flex items-center">
                 <input
                   id="consoles"
-                  type="checkbox"
-                  value=""
-                  class="h-4 w-4 rounded border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500"
+                  type="radio"
+                  value="consoles"
+                  name="category"
+                  [checked]="category() === 'consoles'"
+                  (change)="updateCategory('consoles')"
+                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 />
 
                 <label
@@ -100,9 +104,12 @@
               <div class="flex items-center">
                 <input
                   id="clothes"
-                  type="checkbox"
-                  value=""
-                  class="h-4 w-4 rounded border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500"
+                  type="radio"
+                  value="clothes"
+                  name="category"
+                  [checked]="category() === 'clothes'"
+                  (change)="updateCategory('clothes')"
+                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 />
 
                 <label
@@ -118,9 +125,12 @@
               <div class="flex items-center">
                 <input
                   id="gift-cards"
-                  type="checkbox"
-                  value=""
-                  class="h-4 w-4 rounded border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500"
+                  type="radio"
+                  value="gift-cards"
+                  name="category"
+                  [checked]="category() === 'gift-cards'"
+                  (change)="updateCategory('gift-cards')"
+                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 />
 
                 <label
@@ -136,10 +146,13 @@
 
               <div class="flex items-center">
                 <input
-                  id="headphones"
-                  type="checkbox"
-                  value=""
-                  class="h-4 w-4 rounded border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500"
+                  id="consoles"
+                  type="radio"
+                  value="consoles"
+                  name="category"
+                  [checked]="category() === 'headphones'"
+                  (change)="updateCategory('headphones')"
+                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 />
 
                 <label
@@ -156,9 +169,12 @@
               <div class="flex items-center">
                 <input
                   id="laptops"
-                  type="checkbox"
-                  value=""
-                  class="h-4 w-4 rounded border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500"
+                  type="radio"
+                  value="laptops"
+                  name="category"
+                  [checked]="category() === 'laptops'"
+                  (change)="updateCategory('laptops')"
+                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 />
 
                 <label
@@ -175,9 +191,12 @@
               <div class="flex items-center">
                 <input
                   id="phones"
-                  type="checkbox"
-                  value=""
-                  class="h-4 w-4 rounded border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500"
+                  type="radio"
+                  value="phones"
+                  name="category"
+                  [checked]="category() === 'phones'"
+                  (change)="updateCategory('phones')"
+                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 />
 
                 <label
@@ -194,9 +213,12 @@
               <div class="flex items-center">
                 <input
                   id="tvs"
-                  type="checkbox"
-                  value=""
-                  class="h-4 w-4 rounded border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500"
+                  type="radio"
+                  value="tvs"
+                  name="category"
+                  [checked]="category() === 'tvs'"
+                  (change)="updateCategory('tvs')"
+                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 />
 
                 <label for="tvs" class="ml-2 text-sm font-medium text-gray-900">
@@ -210,9 +232,12 @@
               <div class="flex items-center">
                 <input
                   id="watches"
-                  type="checkbox"
-                  value=""
-                  class="h-4 w-4 rounded border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500"
+                  type="radio"
+                  value="watches"
+                  name="category"
+                  [checked]="category() === 'watches'"
+                  (change)="updateCategory('watches')"
+                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 />
 
                 <label
@@ -246,7 +271,8 @@
                   type="range"
                   min="0"
                   max="7000"
-                  value="0"
+                  [value]="minPrice()"
+                  (change)="updateMinPrice($event)"
                   step="1"
                   class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
                 />
@@ -264,7 +290,8 @@
                   type="range"
                   min="0"
                   max="7000"
-                  value="3500"
+                  [value]="maxPrice()"
+                  (change)="updateMaxPrice($event)"
                   step="1"
                   class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
                 />
@@ -277,7 +304,7 @@
                   disabled="true"
                   type="number"
                   id="min-price-input"
-                  value="0"
+                  [value]="minPrice()"
                   min="0"
                   max="7000"
                   class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
@@ -291,7 +318,7 @@
                   disabled="true"
                   type="number"
                   id="max-price-input"
-                  value="3500"
+                  [value]="maxPrice()"
                   min="0"
                   max="7000"
                   class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
@@ -308,9 +335,10 @@
                   <input
                     id="five-stars"
                     type="radio"
-                    value=""
-                    checked
+                    value="5"
                     name="rating"
+                    [checked]="rating() == 5"
+                    (change)="updateRating(5)"
                     class="h-4 w-4 border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500"
                   />
                   <label for="five-stars" class="ml-2 flex items-center">
@@ -381,8 +409,10 @@
                   <input
                     id="four-stars"
                     type="radio"
-                    value=""
+                    value="4"
                     name="rating"
+                    [checked]="rating() == 4"
+                    (change)="updateRating(4)"
                     class="h-4 w-4 border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500"
                   />
                   <label for="four-stars" class="ml-2 flex items-center">
@@ -453,8 +483,10 @@
                   <input
                     id="three-stars"
                     type="radio"
-                    value=""
+                    value="3"
                     name="rating"
+                    [checked]="rating() == 3"
+                    (change)="updateRating(3)"
                     class="h-4 w-4 border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500"
                   />
                   <label for="three-stars" class="ml-2 flex items-center">
@@ -525,8 +557,10 @@
                   <input
                     id="two-stars"
                     type="radio"
-                    value=""
+                    value="2"
                     name="rating"
+                    [checked]="rating() == 2"
+                    (change)="updateRating(2)"
                     class="h-4 w-4 border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500"
                   />
                   <label for="two-stars" class="ml-2 flex items-center">
@@ -597,8 +631,10 @@
                   <input
                     id="one-star"
                     type="radio"
-                    value=""
+                    value="1"
                     name="rating"
+                    [checked]="rating() == 1"
+                    (change)="updateRating(1)"
                     class="h-4 w-4 border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500"
                   />
                   <label for="one-star" class="ml-2 flex items-center">
@@ -673,13 +709,15 @@
       <!-- Modal footer -->
       <div class="flex items-center space-x-4 rounded-b p-4 md:p-5">
         <button
-          type="submit"
+          type="button"
+          (click)="showResults()"
           class="rounded-lg bg-primary-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300"
         >
-          Show 50 results
+          Show {{ results() }} results
         </button>
         <button
-          type="reset"
+          type="button"
+          (click)="reset()"
           class="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200"
         >
           Reset

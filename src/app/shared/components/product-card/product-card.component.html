@@ -123,7 +123,9 @@
         </svg>
       </div>
 
-      <p class="text-sm font-medium text-gray-900">5.0</p>
+      <p class="text-sm font-medium text-gray-900">
+        {{ product().rating | rating }}
+      </p>
       <p class="text-sm font-medium text-gray-500">({{ product().reviews }})</p>
     </div>
 
