@@ -7,6 +7,7 @@ export enum ProductCategory {
   GIFT_CARDS = 'gift-cards',
   LAPTOPS = 'laptops',
   TVS = 'tvs',
+  PCS = 'PCs',
   ALL = '',
 }
 

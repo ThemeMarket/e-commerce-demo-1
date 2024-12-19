@@ -7,7 +7,7 @@ export const CATEGORY_MOCK = [
   {
     id: 1,
     img: '/img/pc-gaming-2.webp',
-    name: 'Computer & Accessories',
+    name: 'Computers & Accessories',
   },
   {
     id: 2,
