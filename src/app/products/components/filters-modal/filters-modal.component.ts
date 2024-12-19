@@ -31,7 +31,7 @@ export class FiltersModalComponent implements OnInit {
 
   results = computed<number>(
     () =>
-      this.productService.filter({
+      this.productService.getByFilters({
         category: this.category(),
         rating: this.rating(),
         minPrice: this.minPrice(),

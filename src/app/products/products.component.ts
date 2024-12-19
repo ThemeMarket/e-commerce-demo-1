@@ -33,7 +33,7 @@ export class ProductsComponent implements OnInit {
 
   productService = inject(ProductService);
   products = computed(() =>
-    this.productService.filter({
+    this.productService.getByFilters({
       category: this.category(),
       rating: this.rating(),
       minPrice: this.minPrice(),

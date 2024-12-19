@@ -23,7 +23,7 @@ export class ProductService {
     return this.products.find((product) => product.id === id);
   }
 
-  filter(filters: ProductFilterOptions): Product[] {
+  getByFilters(filters: ProductFilterOptions): Product[] {
     const { category, minPrice, maxPrice, rating } = filters;
 
     return this.products.filter((product) => {
