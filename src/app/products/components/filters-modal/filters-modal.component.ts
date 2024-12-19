@@ -3,8 +3,9 @@ import {
   computed,
   inject,
   input,
-  OnInit,
+  OnChanges,
   signal,
+  SimpleChanges,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductService } from '../../../core/services/product.service';
@@ -15,7 +16,7 @@ import { ProductCategory } from '../../../shared/models/product';
   imports: [],
   templateUrl: './filters-modal.component.html',
 })
-export class FiltersModalComponent implements OnInit {
+export class FiltersModalComponent implements OnChanges {
   selectedCategory = input<ProductCategory>();
   selectedRating = input<number>();
   selectedMinPrice = input<number>();
@@ -39,8 +40,22 @@ export class FiltersModalComponent implements OnInit {
       }).length
   );
 
-  ngOnInit(): void {
-    this.setSelectedValues();
+  ngOnChanges(changes: SimpleChanges): void {
+    const {
+      selectedCategory,
+      selectedMaxPrice,
+      selectedMinPrice,
+      selectedRating,
+    } = changes;
+
+    if (
+      selectedCategory ||
+      selectedMaxPrice ||
+      selectedMinPrice ||
+      selectedRating
+    ) {
+      this.setSelectedValues();
+    }
   }
 
   updateMinPrice(e: Event) {
@@ -73,7 +88,7 @@ export class FiltersModalComponent implements OnInit {
   }
 
   reset() {
-    this.setSelectedValues();
+    this.router.navigate(['/products']);
   }
 
   setSelectedValues() {
