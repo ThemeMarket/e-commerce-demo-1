@@ -20,10 +20,16 @@ import { ProductCategory } from '../shared/models/product';
   templateUrl: './products.component.html',
 })
 export class ProductsComponent implements OnInit {
-  rating = input<number>();
-  minPrice = input<number>();
-  maxPrice = input<number>();
+  rating = input<string>();
+  minPrice = input<string>();
+  maxPrice = input<string>();
   category = input<ProductCategory>();
+  page = input<string>();
+
+  selectedRating = computed(() => Number(this.rating()));
+  selectedMinPrice = computed(() => Number(this.minPrice()));
+  selectedMaxPrice = computed(() => Number(this.maxPrice()));
+  selectedCategory = computed(() => this.category());
 
   formattedCategory = computed(() =>
     this.category()
@@ -34,10 +40,10 @@ export class ProductsComponent implements OnInit {
   productService = inject(ProductService);
   products = computed(() =>
     this.productService.getByFilters({
-      category: this.category(),
-      rating: this.rating(),
-      minPrice: this.minPrice(),
-      maxPrice: this.maxPrice(),
+      category: this.selectedCategory(),
+      rating: this.selectedRating(),
+      minPrice: this.selectedMinPrice(),
+      maxPrice: this.selectedMaxPrice(),
     })
   );
 
