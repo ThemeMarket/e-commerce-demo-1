@@ -32,9 +32,13 @@ export class ProductsComponent implements OnInit {
   category = input<ProductCategory>();
   page = input<string>();
 
-  selectedRating = computed(() => Number(this.rating()));
-  selectedMinPrice = computed(() => Number(this.minPrice()));
-  selectedMaxPrice = computed(() => Number(this.maxPrice()));
+  selectedRating = computed(() => (this.rating() ? Number(this.rating()) : 5));
+  selectedMinPrice = computed(() =>
+    this.minPrice() ? Number(this.minPrice()) : 0
+  );
+  selectedMaxPrice = computed(() =>
+    this.maxPrice() ? Number(this.maxPrice()) : 3500
+  );
   selectedCategory = computed(() => this.category());
 
   products = computed(() =>
