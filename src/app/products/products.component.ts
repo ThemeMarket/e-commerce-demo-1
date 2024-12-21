@@ -5,7 +5,7 @@ import { FiltersModalComponent } from './components/filters-modal/filters-modal.
 import { ProductService } from '../core/services/product.service';
 import { ProductCardComponent } from '../shared/components/product-card/product-card.component';
 import { RouterLink } from '@angular/router';
-import { TitleCasePipe } from '@angular/common';
+import { AsyncPipe, TitleCasePipe } from '@angular/common';
 import { ProductCategory } from '../shared/models/product';
 import { FormatCategoryPipe } from '../shared/pipes/format-category.pipe';
 
@@ -18,7 +18,8 @@ import { FormatCategoryPipe } from '../shared/pipes/format-category.pipe';
     RouterLink,
     TitleCasePipe,
     FormatCategoryPipe,
-],
+    AsyncPipe,
+  ],
   templateUrl: './products.component.html',
   styleUrls: ['../shared/styles/pagination.css'],
 })

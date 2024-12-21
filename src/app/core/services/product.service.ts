@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Product, ProductCategory } from '../../shared/models/product';
 import { PRODUCTS_MOCK } from '../../mocks/products';
+import { Observable, of } from 'rxjs';
 
 interface ProductFilterOptions {
   maxPrice?: number;
@@ -15,18 +16,19 @@ interface ProductFilterOptions {
 export class ProductService {
   products: Product[] = PRODUCTS_MOCK;
 
-  getAll(): Product[] {
-    return this.products;
+  getAll(): Observable<Product[]> {
+    return of(this.products);
   }
 
-  getById(id: string): Product | undefined {
-    return this.products.find((product) => product.id === id);
+  getById(id: string): Observable<Product | undefined> {
+    const product = this.products.find((product) => product.id === id);
+    return of(product);
   }
 
-  getByFilters(filters: ProductFilterOptions): Product[] {
+  getByFilters(filters: ProductFilterOptions): Observable<Product[]> {
     const { category, minPrice, maxPrice, rating } = filters;
 
-    return this.products.filter((product) => {
+    const filteredProducts = this.products.filter((product) => {
       let matched = true;
 
       if (category && product.category !== category) matched = false;
@@ -36,5 +38,7 @@ export class ProductService {
 
       return matched;
     });
+
+    return of(filteredProducts);
   }
 }

@@ -20,14 +20,19 @@ export class HomeComponent implements OnInit {
   categoryService = inject(CategoryService);
   promoService = inject(PromoService);
 
-  products: Product[] = this.productService.getAll();
-  productsOffers: Product[] = this.products.filter((p) => p.previousPrice);
+  products!: Product[];
+  productsOffers!: Product[];
   categories: Category[] = this.categoryService.getAll();
   promos: Promo[] = this.promoService.getAll();
 
   ngOnInit(): void {
-    setTimeout(() => {
-      initFlowbite();
-    }, 100);
+    this.productService.getAll().subscribe((products) => {
+      this.products = products;
+      this.productsOffers = products.filter((p) => p.previousPrice);
+
+      setTimeout(() => {
+        initFlowbite();
+      }, 100);
+    });
   }
 }

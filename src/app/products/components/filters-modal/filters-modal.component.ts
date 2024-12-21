@@ -10,10 +10,12 @@ import {
 import { Router } from '@angular/router';
 import { ProductService } from '../../../core/services/product.service';
 import { ProductCategory } from '../../../shared/models/product';
+import { map } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-filters-modal',
-  imports: [],
+  imports: [AsyncPipe],
   templateUrl: './filters-modal.component.html',
 })
 export class FiltersModalComponent implements OnChanges {
@@ -30,14 +32,15 @@ export class FiltersModalComponent implements OnChanges {
   productService = inject(ProductService);
   router = inject(Router);
 
-  results = computed<number>(
-    () =>
-      this.productService.getByFilters({
+  results = computed(() =>
+    this.productService
+      .getByFilters({
         category: this.category(),
         rating: this.rating(),
         minPrice: this.minPrice(),
         maxPrice: this.maxPrice(),
-      }).length
+      })
+      .pipe(map((products) => products.length))
   );
 
   ngOnChanges(changes: SimpleChanges): void {
