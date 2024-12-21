@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { initFlowbite } from 'flowbite';
 import { ProductsLayoutComponent } from './components/products-layout/products-layout.component';
-import { FiltersModalComponent } from './components/filters-modal/filters-modal.component';
+import { FiltersDropdownComponent } from './components/filters-dropdown/filters-dropdown.component';
 import { ProductService } from '../core/services/product.service';
 import { ProductCardComponent } from '../shared/components/product-card/product-card.component';
 import { Router, RouterLink } from '@angular/router';
@@ -23,7 +23,7 @@ import { getProductPages, MAX_PRODUCTS_PER_PAGE } from '../utils/pagination';
   selector: 'app-products',
   imports: [
     ProductsLayoutComponent,
-    FiltersModalComponent,
+    FiltersDropdownComponent,
     ProductCardComponent,
     RouterLink,
     TitleCasePipe,

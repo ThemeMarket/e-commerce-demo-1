@@ -7,18 +7,20 @@ import {
   signal,
   SimpleChanges,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { ProductService } from '../../../core/services/product.service';
 import { ProductCategory } from '../../../shared/models/product';
 import { map } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-filters-modal',
-  imports: [AsyncPipe],
-  templateUrl: './filters-modal.component.html',
+  selector: 'app-filters-dropdown',
+  imports: [AsyncPipe, RouterLink],
+  templateUrl: './filters-dropdown.component.html',
 })
-export class FiltersModalComponent implements OnChanges {
+export class FiltersDropdownComponent implements OnChanges {
+  productService = inject(ProductService);
+
   selectedCategory = input<ProductCategory>();
   selectedRating = input<number>();
   selectedMinPrice = input<number>();
@@ -28,9 +30,6 @@ export class FiltersModalComponent implements OnChanges {
   maxPrice = signal<number>(3500);
   rating = signal<number>(5);
   category = signal<ProductCategory>(ProductCategory.ALL);
-
-  productService = inject(ProductService);
-  router = inject(Router);
 
   results = computed(() =>
     this.productService
@@ -77,21 +76,6 @@ export class FiltersModalComponent implements OnChanges {
 
   updateCategory(category: string) {
     this.category.set(category as ProductCategory);
-  }
-
-  showResults() {
-    this.router.navigate(['products'], {
-      queryParams: {
-        category: this.category(),
-        minPrice: this.minPrice(),
-        maxPrice: this.maxPrice(),
-        rating: this.rating(),
-      },
-    });
-  }
-
-  reset() {
-    this.router.navigate(['/products']);
   }
 
   setSelectedValues() {

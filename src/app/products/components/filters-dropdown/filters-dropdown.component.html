@@ -723,20 +723,26 @@
 
       <!-- Modal footer -->
       <div class="flex items-center space-x-4 rounded-b p-4 md:p-5">
-        <button
-          type="button"
-          (click)="showResults()"
+        <a
+          routerLink="/products"
+          [queryParams]="{
+            category: category(),
+            minPrice: minPrice(),
+            maxPrice: maxPrice(),
+            rating: rating(),
+          }"
+          role="button"
           class="rounded-lg bg-primary-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300"
         >
           Show {{ results() | async }} results
-        </button>
-        <button
-          type="button"
-          (click)="reset()"
+        </a>
+        <a
+          routerLink="/products"
+          role="button"
           class="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200"
         >
           Reset
-        </button>
+        </a>
       </div>
     </div>
   </div>
