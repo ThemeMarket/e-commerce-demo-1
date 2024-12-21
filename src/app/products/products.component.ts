@@ -13,10 +13,10 @@ import { FiltersModalComponent } from './components/filters-modal/filters-modal.
 import { ProductService } from '../core/services/product.service';
 import { ProductCardComponent } from '../shared/components/product-card/product-card.component';
 import { Router, RouterLink } from '@angular/router';
-import { AsyncPipe, TitleCasePipe } from '@angular/common';
+import { TitleCasePipe } from '@angular/common';
 import { Product, ProductCategory } from '../shared/models/product';
 import { FormatCategoryPipe } from '../shared/pipes/format-category.pipe';
-import { map, Observable } from 'rxjs';
+import { map } from 'rxjs';
 import { getProductPages, MAX_PRODUCTS_PER_PAGE } from '../utils/pagination';
 
 @Component({
@@ -28,7 +28,6 @@ import { getProductPages, MAX_PRODUCTS_PER_PAGE } from '../utils/pagination';
     RouterLink,
     TitleCasePipe,
     FormatCategoryPipe,
-    AsyncPipe,
   ],
   templateUrl: './products.component.html',
 })
@@ -65,19 +64,19 @@ export class ProductsComponent implements OnInit, OnChanges {
   productPages = computed(() =>
     this.products().pipe(map((products) => getProductPages(products)))
   );
-  pageProducts!: Observable<Product[]>;
+  pageProducts!: Product[];
 
   ngOnChanges(changes: SimpleChanges): void {
-    const { page } = changes;
+    const { rating, minPrice, category, maxPrice, page } = changes;
 
-    if (page) {
-      this.pageProducts = this.getPageProducts();
+    if (rating || minPrice || category || maxPrice || page) {
+      this.getPageProducts().subscribe(
+        (pageProducts) => (this.pageProducts = pageProducts)
+      );
     }
   }
 
   ngOnInit(): void {
-    this.pageProducts = this.getPageProducts();
-
     setTimeout(() => {
       initFlowbite();
     }, 100);
