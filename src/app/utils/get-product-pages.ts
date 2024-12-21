@@ -1,4 +1,4 @@
-import { MAX_PRODUCTS_PER_PAGE } from '../shared/constants/constants';
+export const MAX_PRODUCTS_PER_PAGE = 8;
 
 export function getProductPages(arr: any[]): number[] {
   const pages: number[] = [];
