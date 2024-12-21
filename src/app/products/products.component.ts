@@ -7,6 +7,7 @@ import { ProductCardComponent } from '../shared/components/product-card/product-
 import { RouterLink } from '@angular/router';
 import { TitleCasePipe } from '@angular/common';
 import { ProductCategory } from '../shared/models/product';
+import { FormatCategoryPipe } from '../shared/pipes/format-category.pipe';
 
 @Component({
   selector: 'app-products',
@@ -16,10 +17,14 @@ import { ProductCategory } from '../shared/models/product';
     ProductCardComponent,
     RouterLink,
     TitleCasePipe,
-  ],
+    FormatCategoryPipe,
+],
   templateUrl: './products.component.html',
+  styleUrls: ['../shared/styles/pagination.css'],
 })
 export class ProductsComponent implements OnInit {
+  productService = inject(ProductService);
+
   rating = input<string>();
   minPrice = input<string>();
   maxPrice = input<string>();
@@ -31,13 +36,6 @@ export class ProductsComponent implements OnInit {
   selectedMaxPrice = computed(() => Number(this.maxPrice()));
   selectedCategory = computed(() => this.category());
 
-  formattedCategory = computed(() =>
-    this.category()
-      ?.split('-')
-      .reduce((acc: string, val: string) => acc + ' ' + val, '')
-  );
-
-  productService = inject(ProductService);
   products = computed(() =>
     this.productService.getByFilters({
       category: this.selectedCategory(),
