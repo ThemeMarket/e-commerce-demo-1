@@ -171,9 +171,15 @@
     <div
       class="my-8 grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
     >
-      @for (product of products; track $index) {
-      <app-product-card [product]="product" />
-      <app-product-card [product]="product" />
+      @defer { 
+        @for (product of products; track $index) {
+          <app-product-card [product]="product" />
+        }
+      } @placeholder(minimum 200ms) {
+        <app-product-loading />
+        <app-product-loading />
+        <app-product-loading />
+        <app-product-loading />
       }
     </div>
   </section>

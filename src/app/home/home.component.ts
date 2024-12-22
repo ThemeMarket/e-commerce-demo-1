@@ -9,10 +9,11 @@ import { CategoryService } from '../core/services/category.service';
 import { Category } from '../shared/models/category';
 import { Promo } from '../shared/models/promo';
 import { PromoService } from '../core/services/promo.service';
+import { ProductLoadingComponent } from "../shared/components/product-loading/product-loading.component";
 
 @Component({
   selector: 'app-home',
-  imports: [ProductOfferComponent, ProductCardComponent, BaseLayoutComponent],
+  imports: [ProductOfferComponent, ProductCardComponent, BaseLayoutComponent, ProductLoadingComponent],
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
