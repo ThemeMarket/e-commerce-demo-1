@@ -10,11 +10,13 @@
         Shop laptops, desktops, monitors, tablets, PC gaming, hard drives and
         storage, accessories and more.
       </p>
-      <button
+      <a
+        role="button"
+        routerLink="/products"
         class="text-gray-700 focus:ring-4 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 hover:bg-gray-100 focus:outline-none focus:ring-gray-200 border border-gray-500 w-fit"
       >
         View More
-      </button>
+      </a>
     </article>
     <article
       id="controls-carousel"
@@ -23,7 +25,6 @@
     >
       <!-- Carousel wrapper -->
       <div class="relative h-56 overflow-hidden rounded-lg sm:h-96">
-        <!-- Item 1 -->
         @for (productOffer of productsOffers; track $index) {
         <div
           class="mt-8 sm:mt-28 lg:mt-24 hidden duration-700 ease-in-out"
@@ -94,6 +95,7 @@
         Shop by categories
       </h2>
       <a
+        routerLink="/products"
         class="text-base md:text-lg inline-flex items-center gap-2 text-gray-950 font-semibold hover:text-blue-600"
       >
         Browse All
@@ -111,34 +113,95 @@
     <article
       class="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center"
     >
-      @for (category of categories; track $index) {
-      <div
+      <a
+        role="button"
+        routerLink="/products"
+        [queryParams]="{
+          category: 'clothes'
+        }"
         class="bg-white shadow-md border border-gray-200 p-6 max-w-xs rounded-md space-y-4"
       >
         <div>
           <img
             class="size-80 object-contain object-center hover:scale-105 transition-transform"
-            [src]="category.img"
-            alt="Category Image"
+            src="/img/sweater.webp"
+            alt="Clothes & Watches"
           />
         </div>
         <h3 class="font-bold text-gray-950 text-base lg:text-lg">
-          {{ category.name }}
+          Clothes & Watches
         </h3>
-      </div>
-      }
+      </a>
+      <a
+        role="button"
+        routerLink="/products"
+        [queryParams]="{
+          category: 'PCs'
+        }"
+        class="bg-white shadow-md border border-gray-200 p-6 max-w-xs rounded-md space-y-4"
+      >
+        <div>
+          <img
+            class="size-80 object-contain object-center hover:scale-105 transition-transform"
+            src="/img/pc-gaming-2.webp"
+            alt="Computers & Accessories"
+          />
+        </div>
+        <h3 class="font-bold text-gray-950 text-base lg:text-lg">
+          Computers & Accessories
+        </h3>
+      </a>
+      <a
+        role="button"
+        routerLink="/products"
+        [queryParams]="{
+          category: 'headphones'
+        }"
+        class="bg-white shadow-md border border-gray-200 p-6 max-w-xs rounded-md space-y-4"
+      >
+        <div>
+          <img
+            class="size-80 object-contain object-center hover:scale-105 transition-transform"
+            src="/img/headphones.webp"
+            alt="Beauty Picks"
+          />
+        </div>
+        <h3 class="font-bold text-gray-950 text-base lg:text-lg">
+          Beauty Picks
+        </h3>
+      </a>
+      <a
+        role="button"
+        routerLink="/products"
+        [queryParams]="{
+          category: 'gift-cards'
+        }"
+        class="bg-white shadow-md border border-gray-200 p-6 max-w-xs rounded-md space-y-4"
+      >
+        <div>
+          <img
+            class="size-80 object-contain object-center hover:scale-105 transition-transform"
+            src="/img/gift-card.webp"
+            alt="Gift Cards"
+          />
+        </div>
+        <h3 class="font-bold text-gray-950 text-base lg:text-lg">Gift Cards</h3>
+      </a>
     </article>
     <article class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      @for (promo of promos; track $index) {
       <div
         class="rounded-md bg-white shadow-md border border-gray-200 flex justify-between"
       >
         <div class="flex flex-col max-w-xs justify-center p-6">
-          <h2 class="text-gray-950 font-bold text-xl">{{ promo.name }}</h2>
+          <h2 class="text-gray-950 font-bold text-xl">Deals & Promotions</h2>
           <p class="text-gray-500 text-pretty text-sm">
-            {{ promo.description }}
+            Shop Today's Deals, Lightning Deals, and limited-time discounts
           </p>
           <a
+            routerLink="/products"
+            [queryParams]="{
+              sortBy: 'discount'
+            }"
             class="text-sm mt-2 inline-flex items-center gap-2 text-gray-500 hover:text-blue-600"
           >
             See More
@@ -155,13 +218,12 @@
         </div>
         <div class="relative size-28 sm:size-32 overflow-hidden">
           <img
-            [src]="promo.img"
+            src="/img/clock.webp"
             class="absolute -right-4 sm:-right-8 size-28 sm:size-32 aspect-square object-center"
             alt="Promo Image"
           />
         </div>
       </div>
-      }
     </article>
   </section>
   <section class="space-y-8 my-16">

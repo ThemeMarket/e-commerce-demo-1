@@ -252,8 +252,16 @@
       <div
         class="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4"
       >
-        @for (product of pageProducts; track $index) {
-        <app-product-card [product]="product" />
+        @defer {
+          @for (product of pageProducts; track $index) {
+            <app-product-card [product]="product" />
+          }
+        }
+        @placeholder(minimum 200ms) {
+          <app-product-loading />
+          <app-product-loading />
+          <app-product-loading />
+          <app-product-loading />
         }
       </div>
       <nav class="mx-auto w-fit" aria-label="Page navigation example">

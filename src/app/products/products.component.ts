@@ -18,6 +18,7 @@ import { Product, ProductCategory } from '../shared/models/product';
 import { FormatCategoryPipe } from '../shared/pipes/format-category.pipe';
 import { map } from 'rxjs';
 import { getProductPages, MAX_PRODUCTS_PER_PAGE } from '../utils/pagination';
+import { ProductLoadingComponent } from "../shared/components/product-loading/product-loading.component";
 
 @Component({
   selector: 'app-products',
@@ -28,7 +29,8 @@ import { getProductPages, MAX_PRODUCTS_PER_PAGE } from '../utils/pagination';
     RouterLink,
     TitleCasePipe,
     FormatCategoryPipe,
-  ],
+    ProductLoadingComponent
+],
   templateUrl: './products.component.html',
 })
 export class ProductsComponent implements OnInit, OnChanges {
