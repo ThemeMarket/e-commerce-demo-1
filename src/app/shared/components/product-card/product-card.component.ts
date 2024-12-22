@@ -3,6 +3,7 @@ import { Product } from '../../models/product';
 import { CurrencyPipe, NgOptimizedImage, PercentPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { RatingPipe } from '../../pipes/rating.pipe';
+import { Cart } from '../../models/cart';
 
 @Component({
   selector: 'app-product-card',
@@ -26,5 +27,21 @@ export class ProductCardComponent implements OnInit {
     if (previousPrice) {
       this.productDiscount = (previousPrice - currentPrice) / previousPrice;
     }
+  }
+
+  addToCart() {
+    const cart: Cart = JSON.parse(localStorage.getItem('cart') as string) || [];
+
+    const matched = cart.find(
+      ({ product }) => product.id === this.product().id
+    );
+
+    if (matched) {
+      matched.quantity++;
+    } else {
+      cart.push({ product: this.product(), quantity: 1 });
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
   }
 }
