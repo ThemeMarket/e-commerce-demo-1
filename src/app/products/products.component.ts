@@ -40,6 +40,7 @@ export class ProductsComponent implements OnInit, OnChanges {
   maxPrice = input<string>();
   category = input<ProductCategory>();
   page = input<string>();
+  sortBy = input<string>();
 
   selectedRating = computed(() => (this.rating() ? Number(this.rating()) : 5));
   selectedMinPrice = computed(() =>
@@ -67,12 +68,15 @@ export class ProductsComponent implements OnInit, OnChanges {
   pageProducts!: Product[];
 
   ngOnChanges(changes: SimpleChanges): void {
-    const { rating, minPrice, category, maxPrice, page } = changes;
+    const { rating, minPrice, category, maxPrice, page, sortBy } = changes;
 
-    if (rating || minPrice || category || maxPrice || page) {
-      this.getPageProducts().subscribe(
-        (pageProducts) => (this.pageProducts = pageProducts)
-      );
+    if (rating || minPrice || category || maxPrice || page || sortBy) {
+      this.getPageProducts().subscribe((pageProducts) => {
+        this.pageProducts = this.productService.sortBy(
+          pageProducts,
+          this.sortBy() ?? 'most-popular'
+        );
+      });
     }
   }
 

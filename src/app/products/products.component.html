@@ -187,6 +187,14 @@
             >
               <li>
                 <a
+                  routerLink="/products"
+                  [queryParams]="{
+                    category: category(),
+                    minPrice: minPrice(),
+                    maxPrice: maxPrice(),
+                    rating: rating(),
+                    sortBy: 'most-popular'
+                  }"
                   class="group inline-flex w-full items-center rounded-md px-3 py-2 text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-900"
                 >
                   The most popular
@@ -194,6 +202,14 @@
               </li>
               <li>
                 <a
+                  routerLink="/products"
+                  [queryParams]="{
+                    category: category(),
+                    minPrice: minPrice(),
+                    maxPrice: maxPrice(),
+                    rating: rating(),
+                    sortBy: 'increasing-price'
+                  }"
                   class="group inline-flex w-full items-center rounded-md px-3 py-2 text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-900"
                 >
                   Increasing price
@@ -201,6 +217,14 @@
               </li>
               <li>
                 <a
+                  routerLink="/products"
+                  [queryParams]="{
+                    category: category(),
+                    minPrice: minPrice(),
+                    maxPrice: maxPrice(),
+                    rating: rating(),
+                    sortBy: 'decreasing-price'
+                  }"
                   class="group inline-flex w-full items-center rounded-md px-3 py-2 text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-900"
                 >
                   Decreasing price
@@ -208,6 +232,14 @@
               </li>
               <li>
                 <a
+                  routerLink="/products"
+                  [queryParams]="{
+                    category: category(),
+                    minPrice: minPrice(),
+                    maxPrice: maxPrice(),
+                    rating: rating(),
+                    sortBy: 'discount'
+                  }"
                   class="group inline-flex w-full items-center rounded-md px-3 py-2 text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-900"
                 >
                   Discount %

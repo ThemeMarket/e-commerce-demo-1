@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Product, ProductCategory } from '../../shared/models/product';
 import { PRODUCTS_MOCK } from '../../mocks/products';
 import { Observable, of } from 'rxjs';
+import { SortProductsStrategyFactory } from '../../utils/products';
 
 interface ProductFilterOptions {
   maxPrice?: number;
@@ -14,6 +15,8 @@ interface ProductFilterOptions {
   providedIn: 'root',
 })
 export class ProductService {
+  sortProductsStrategyFactory = inject(SortProductsStrategyFactory);
+
   products: Product[] = PRODUCTS_MOCK;
 
   getAll(): Observable<Product[]> {
@@ -40,5 +43,10 @@ export class ProductService {
     });
 
     return of(filteredProducts);
+  }
+
+  sortBy(products: Product[], strategy: string): Product[] {
+    const sortStrategy = this.sortProductsStrategyFactory.getStrategy(strategy);
+    return sortStrategy.sort(products);
   }
 }
