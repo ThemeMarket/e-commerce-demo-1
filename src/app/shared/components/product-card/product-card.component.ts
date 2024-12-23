@@ -1,4 +1,4 @@
-import { Component, input, OnInit } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { Product } from '../../models/product';
 import { CurrencyPipe, NgOptimizedImage, PercentPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -16,18 +16,18 @@ import { Cart } from '../../models/cart';
   ],
   templateUrl: './product-card.component.html',
 })
-export class ProductCardComponent implements OnInit {
+export class ProductCardComponent {
   product = input.required<Product>();
-  productDiscount?: number;
-
-  ngOnInit(): void {
+  productDiscount = computed(() => {
     const currentPrice = this.product().price;
     const previousPrice = this.product().previousPrice;
 
     if (previousPrice) {
-      this.productDiscount = (previousPrice - currentPrice) / previousPrice;
+      return (previousPrice - currentPrice) / previousPrice;
     }
-  }
+
+    return null;
+  });
 
   addToCart() {
     const cart: Cart = JSON.parse(localStorage.getItem('cart') as string) || [];
