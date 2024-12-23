@@ -31,6 +31,7 @@ export class CartComponent implements OnInit {
   });
 
   discountCodes: DiscountCode[] = [{ code: 'abc123', percent: 10 }];
+  appliedDiscount?: DiscountCode;
   discountCode: string = '';
 
   total = computed(
@@ -38,6 +39,12 @@ export class CartComponent implements OnInit {
   );
 
   ngOnInit(): void {
+    if ('applied-discount' in localStorage) {
+      this.appliedDiscount = JSON.parse(
+        localStorage.getItem('applied-discount') as string
+      );
+    }
+
     this.updateCart();
 
     initFlowbite();
@@ -51,11 +58,11 @@ export class CartComponent implements OnInit {
       0
     );
 
-    this.orderSummary.update((orderSummary) => {
-      return {
-        ...orderSummary,
-        originalPrice,
-      };
+    this.orderSummary.set({
+      originalPrice,
+      savings: this.appliedDiscount
+        ? (originalPrice * this.appliedDiscount.percent) / 100
+        : 0,
     });
   }
 
@@ -71,6 +78,12 @@ export class CartComponent implements OnInit {
       this.orderSummary.update((orderSummary) => {
         return { ...orderSummary, savings };
       });
+
+      this.appliedDiscount = discount;
+      localStorage.setItem(
+        'applied-discount',
+        JSON.stringify(this.appliedDiscount)
+      );
     } else {
       // TODO: notify invalid code
     }
