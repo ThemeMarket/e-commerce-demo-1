@@ -1,0 +1,7 @@
+.form-control-valid {
+  @apply border rounded-lg block w-full p-2.5 bg-gray-50 border-gray-400 placeholder-gray-500 text-gray-950 focus:ring-blue-600 focus:border-blue-600;
+}
+
+.form-control-invalid {
+  @apply border rounded-lg block w-full p-2.5 bg-gray-50 border-gray-400 placeholder-gray-500 text-red-400 focus:ring-red-400 focus:border-red-400;
+}
