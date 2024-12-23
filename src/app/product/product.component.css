@@ -1,0 +1,39 @@
+.product-img {
+  @apply rounded-md shadow-md border border-gray-300 bg-white p-3 size-24;
+}
+
+.product-img-active {
+  @apply rounded-md shadow-md border-2 border-primary-200 bg-primary-50 p-3 size-24;
+}
+
+.animate-slideIn {
+  animation: slideIn 1 0.25s linear both;
+}
+
+.animate-slideOut {
+  animation: slideOut 1 0.25s linear both;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0.5;
+    transform: translateX(150%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+
+  to {
+    opacity: 0.5;
+    transform: translateX(-150%);
+  }
+}
