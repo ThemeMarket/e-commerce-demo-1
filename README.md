@@ -38,6 +38,12 @@ Esta es una plantilla de sitio web de comercio electrónico totalmente gratuita 
     <img src="/public/img/previews/shopping-cart.png" style="max-width: 100%; height: auto; margin: 10px;">
 </div>
 
+### Product Details
+
+<div style="display: flex; justify-content: center;">
+    <img src="/public/img/previews/single-product.png" style="max-width: 100%; height: auto; margin: 10px;">
+</div>
+
 ### Auth
 
 <div style="display: flex; flex-wrap: wrap; justify-content: center;">
