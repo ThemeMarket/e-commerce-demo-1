@@ -10,7 +10,7 @@ class MostPopularSortStrategy implements SortStrategy {
   type: string = 'most-popular';
 
   sort(arr: Product[]): Product[] {
-    return arr.sort((a, b) => a.reviews - b.reviews);
+    return arr.sort((a, b) => b.reviews - a.reviews);
   }
 }
 

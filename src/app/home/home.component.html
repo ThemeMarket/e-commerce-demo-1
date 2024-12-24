@@ -24,10 +24,10 @@
       data-carousel="slide"
     >
       <!-- Carousel wrapper -->
-      <div class="relative h-56 overflow-hidden rounded-lg sm:h-96">
+      <div class="relative overflow-hidden rounded-lg h-96">
         @for (productOffer of productsOffers; track $index) {
         <div
-          class="mt-8 sm:mt-28 lg:mt-24 hidden duration-700 ease-in-out"
+          class="mt-20 lg:mt-24 hidden duration-700 ease-in-out"
           data-carousel-item
         >
           <app-product-offer [product]="productOffer" />

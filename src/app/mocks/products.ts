@@ -94,6 +94,21 @@ export const PRODUCTS_MOCK: Product[] = [
     rating: 4.7,
   },
   {
+    id: 'f6a7b8c9-d0e1-2345-f678-90abcdef1234',
+    name: 'ASUS ZenScreen',
+    description:
+      '<p>Enhance your productivity and entertainment experience with the ASUS ZenScreen. Designed for versatility and portability, this monitor combines sleek design with powerful features.</p> <ul><li><strong>Portable Design:</strong> Compact and lightweight, perfect for on-the-go use.</li><li><strong>Advanced Display:</strong> Full HD resolution with IPS technology for vibrant and accurate colors.</li><li><strong>Multiple Connectivity Options:</strong> USB-C and HDMI ports for easy connection to various devices.</li></ul>',
+    images: [
+      '/img/products/asus-zenscreen/1.webp',
+      '/img/products/asus-zenscreen/2.webp',
+    ],
+    reviews: 1200,
+    price: 249.99,
+    previousPrice: 299.99,
+    category: ProductCategory.PHONES,
+    rating: 4.5,
+  },
+  {
     id: 'd4e5f6a7-b8c9-0123-def4-567890abcdef',
     name: 'PC Racing Pack 1 - AMD Ryzen 5 5600H',
     description:
@@ -123,20 +138,5 @@ export const PRODUCTS_MOCK: Product[] = [
     previousPrice: null,
     category: ProductCategory.HEADPHONES,
     rating: 4.6,
-  },
-  {
-    id: 'f6a7b8c9-d0e1-2345-f678-90abcdef1234',
-    name: 'ASUS ZenScreen',
-    description:
-      '<p>Enhance your productivity and entertainment experience with the ASUS ZenScreen. Designed for versatility and portability, this monitor combines sleek design with powerful features.</p> <ul><li><strong>Portable Design:</strong> Compact and lightweight, perfect for on-the-go use.</li><li><strong>Advanced Display:</strong> Full HD resolution with IPS technology for vibrant and accurate colors.</li><li><strong>Multiple Connectivity Options:</strong> USB-C and HDMI ports for easy connection to various devices.</li></ul>',
-    images: [
-      '/img/products/asus-zenscreen/1.webp',
-      '/img/products/asus-zenscreen/2.webp',
-    ],
-    reviews: 1200,
-    price: 249.99,
-    previousPrice: 299.99,
-    category: ProductCategory.PHONES,
-    rating: 4.5,
   },
 ];

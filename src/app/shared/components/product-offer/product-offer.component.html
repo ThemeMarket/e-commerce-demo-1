@@ -90,6 +90,12 @@
   <div
     class="hidden sm:flex absolute -top-20 right-5 md:right-24 lg:-right-3 xl:right-10"
   >
-    <img class="size-64" src="{{ product().images[0] }}" alt="Headphones" />
+    <img
+      ngSrc="{{ product().images[0] }}"
+      alt="Headphones"
+      width="256"
+      height="256"
+      priority
+    />
   </div>
 </div>

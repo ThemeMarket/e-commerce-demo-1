@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Product, ProductCategory } from '../../shared/models/product';
 import { PRODUCTS_MOCK } from '../../mocks/products';
 import { Observable, of } from 'rxjs';
-import { SortProductsStrategyFactory } from '../../utils/products';
+import { SortProductsStrategyFactory } from '../../utils/sortStrategy';
 
 interface ProductFilterOptions {
   maxPrice?: number;
