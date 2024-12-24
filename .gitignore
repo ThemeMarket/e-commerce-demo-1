@@ -10,6 +10,7 @@
 /node_modules
 npm-debug.log
 yarn-error.log
+package-lock.json
 
 # IDEs and editors
 .idea/
@@ -24,6 +25,7 @@ yarn-error.log
 .angular
 .vscode
 .history/*
+.editorconfig
 
 # Miscellaneous
 /.angular/cache
