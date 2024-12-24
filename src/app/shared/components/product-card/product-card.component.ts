@@ -1,9 +1,10 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, OnInit } from '@angular/core';
 import { Product } from '../../models/product';
 import { CurrencyPipe, NgOptimizedImage, PercentPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { RatingPipe } from '../../pipes/rating.pipe';
 import { Cart } from '../../models/cart';
+import { initTooltips } from 'flowbite';
 
 @Component({
   selector: 'app-product-card',
@@ -16,7 +17,7 @@ import { Cart } from '../../models/cart';
   ],
   templateUrl: './product-card.component.html',
 })
-export class ProductCardComponent {
+export class ProductCardComponent implements OnInit {
   product = input.required<Product>();
   productDiscount = computed(() => {
     const currentPrice = this.product().price;
@@ -28,6 +29,8 @@ export class ProductCardComponent {
 
     return null;
   });
+
+  productTooltipId = crypto.randomUUID();
 
   addToCart() {
     const cart: Cart = JSON.parse(localStorage.getItem('cart') as string) || [];
@@ -43,5 +46,9 @@ export class ProductCardComponent {
     }
 
     localStorage.setItem('cart', JSON.stringify(cart));
+  }
+
+  ngOnInit(): void {
+    initTooltips();
   }
 }

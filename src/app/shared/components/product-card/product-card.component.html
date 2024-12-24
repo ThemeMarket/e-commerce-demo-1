@@ -19,7 +19,7 @@
         <a
           role="button"
           [routerLink]="['/products', product().id]"
-          [attr.data-tooltip-target]="product().id"
+          [attr.data-tooltip-target]="productTooltipId"
           class="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900"
         >
           <span class="sr-only"> Quick look </span>
@@ -45,7 +45,7 @@
           </svg>
         </a>
         <div
-          [id]="product().id"
+          [id]="productTooltipId"
           role="tooltip"
           class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300"
           data-popper-placement="top"
