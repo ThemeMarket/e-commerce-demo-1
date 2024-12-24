@@ -162,7 +162,7 @@
         <div>
           <img
             class="size-80 object-contain object-center hover:scale-105 transition-transform"
-            src="/img/headphones.webp"
+            src="img/products/black-leaf-headphones/1.webp"
             alt="Beauty Picks"
           />
         </div>
@@ -233,15 +233,13 @@
     <div
       class="my-8 grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
     >
-      @defer { 
-        @for (product of products; track $index) {
-          <app-product-card [product]="product" />
-        }
-      } @placeholder(minimum 200ms) {
-        <app-product-loading />
-        <app-product-loading />
-        <app-product-loading />
-        <app-product-loading />
+      @defer { @for (product of products; track $index) {
+      <app-product-card [product]="product" />
+      } } @placeholder(minimum 200ms) {
+      <app-product-loading />
+      <app-product-loading />
+      <app-product-loading />
+      <app-product-loading />
       }
     </div>
   </section>

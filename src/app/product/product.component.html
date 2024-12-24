@@ -2,12 +2,12 @@
   <section class="my-4 sm:my-8 flex flex-col md:flex-row gap-6">
     <article class="flex flex-col gap-4 size-full md:size-1/2">
       <div
-        class="p-6 bg-primary-50 grid place-content-center border border-primary-100 rounded-md shadow overflow-hidden"
+        class="p-6 bg-primary-50 grid place-content-center border border-primary-100 rounded-md shadow overflow-hidden h-[320px] sm:h-[396px]"
       >
         @if (activeImgSrc()) {
         <img
           #productImg
-          sizes="(min-width: 768px) 80vw, 100vw"
+          sizes="(min-width: 768px) 100vw, 50vw"
           [ngSrc]="activeImgSrc()"
           [alt]="product?.name"
           width="296"
@@ -21,7 +21,7 @@
         <button
           (click)="changeActiveImg(image)"
           class="product-img"
-          [class.product-img-active]="image"
+          [class.product-img-active]="image === activeImgSrc()"
         >
           <div class="relative size-full">
             <img [ngSrc]="image" fill priority />

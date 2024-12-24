@@ -1,9 +1,9 @@
 .product-img {
-  @apply rounded-md shadow-md border border-gray-300 bg-white p-3 size-24;
+  @apply rounded-md shadow-md border border-gray-300 bg-white p-3 size-24 transition-colors;
 }
 
 .product-img-active {
-  @apply rounded-md shadow-md border-2 border-primary-200 bg-primary-50 p-3 size-24;
+  @apply rounded-md shadow-md border-2 border-primary-200 bg-primary-50 p-3 size-24 transition-colors;
 }
 
 .animate-slideIn {

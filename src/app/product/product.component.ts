@@ -32,7 +32,7 @@ export class ProductComponent implements OnInit {
   ngOnInit(): void {
     this.productService.getById(this.id()).subscribe((product) => {
       this.product = product;
-      this.changeActiveImg(this.product?.images[0] as string);
+      this.activeImgSrc.set(this.product?.images[0] as string);
     });
 
     initFlowbite();
@@ -54,14 +54,13 @@ export class ProductComponent implements OnInit {
   }
 
   changeActiveImg(src: string) {
-    this.activeImgSrc.set(src);
-
     const productImgElement = this.productImg()?.nativeElement;
 
     if (productImgElement) {
       productImgElement.classList.toggle('animate-slideOut');
 
       setTimeout(() => {
+        this.activeImgSrc.set(src);
         productImgElement.classList.toggle('animate-slideOut');
         productImgElement.classList.add('animate-slideIn');
       }, 250);
