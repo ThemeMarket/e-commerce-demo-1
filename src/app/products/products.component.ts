@@ -18,7 +18,7 @@ import { Product, ProductCategory } from '../shared/models/product';
 import { FormatCategoryPipe } from '../shared/pipes/format-category.pipe';
 import { map } from 'rxjs';
 import { getProductPages, MAX_PRODUCTS_PER_PAGE } from '../utils/pagination';
-import { ProductLoadingComponent } from "../shared/components/product-loading/product-loading.component";
+import { ProductLoadingComponent } from '../shared/components/product-loading/product-loading.component';
 
 @Component({
   selector: 'app-products',
@@ -29,8 +29,8 @@ import { ProductLoadingComponent } from "../shared/components/product-loading/pr
     RouterLink,
     TitleCasePipe,
     FormatCategoryPipe,
-    ProductLoadingComponent
-],
+    ProductLoadingComponent,
+  ],
   templateUrl: './products.component.html',
 })
 export class ProductsComponent implements OnInit, OnChanges {
@@ -73,11 +73,13 @@ export class ProductsComponent implements OnInit, OnChanges {
     const { rating, minPrice, category, maxPrice, page, sortBy } = changes;
 
     if (rating || minPrice || category || maxPrice || page || sortBy) {
-      this.getPageProducts().subscribe((pageProducts) => {
-        this.pageProducts = this.productService.sortBy(
-          pageProducts,
+      this.products().subscribe((products) => {
+        const sortedProducts = this.productService.sortBy(
+          products,
           this.sortBy() ?? 'most-popular'
         );
+
+        this.pageProducts = this.getPageProducts(sortedProducts);
       });
     }
   }
@@ -88,23 +90,19 @@ export class ProductsComponent implements OnInit, OnChanges {
     }, 100);
   }
 
-  private getPageProducts() {
-    return this.products().pipe(
-      map((products) => {
-        const currentPage = this.page() ? parseInt(this.page() as string) : 1;
-        const lastIndex = currentPage * MAX_PRODUCTS_PER_PAGE;
-        const initialIndex = lastIndex - MAX_PRODUCTS_PER_PAGE;
-        const pageProducts = [];
+  private getPageProducts(products: Product[]) {
+    const currentPage = this.page() ? parseInt(this.page() as string) : 1;
+    const lastIndex = currentPage * MAX_PRODUCTS_PER_PAGE;
+    const initialIndex = lastIndex - MAX_PRODUCTS_PER_PAGE;
+    const pageProducts = [];
 
-        for (let i = 0; i < MAX_PRODUCTS_PER_PAGE; i++) {
-          const product = products[i + initialIndex];
+    for (let i = 0; i < MAX_PRODUCTS_PER_PAGE; i++) {
+      const product = products[i + initialIndex];
 
-          if (product) pageProducts.push(product);
-        }
+      if (product) pageProducts.push(product);
+    }
 
-        return pageProducts;
-      })
-    );
+    return pageProducts;
   }
 
   loadPage(page: number) {
@@ -117,6 +115,7 @@ export class ProductsComponent implements OnInit, OnChanges {
           rating: this.selectedRating(),
           minPrice: this.selectedMinPrice(),
           maxPrice: this.selectedMaxPrice(),
+          sortBy: this.sortBy(),
           page,
         },
       });
