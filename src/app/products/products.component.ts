@@ -5,6 +5,7 @@ import {
   input,
   OnChanges,
   OnInit,
+  signal,
   SimpleChanges,
 } from '@angular/core';
 import { initFlowbite } from 'flowbite';
@@ -56,6 +57,37 @@ export class ProductsComponent implements OnInit, OnChanges {
     this.page() ? parseInt(this.page() as string) : 1
   );
 
+  searchTerm = signal<string>('');
+
+  /**
+   * Maneja el evento de cambio de entrada de búsqueda.
+   * 
+   * @param event - El evento de entrada que se desencadena cuando cambia el término de búsqueda.
+   * 
+   * Este método extrae el valor del elemento de entrada, actualiza el término de búsqueda,
+   * y recarga la primera página de resultados.
+   */
+  onSearchChange(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const value = inputElement?.value ?? '';
+    this.searchTerm.set(value);
+    this.loadPage(1); 
+  }
+  
+
+  /**
+   * A computed property that retrieves a list of products based on the selected filters.
+   * The filters include category, rating, minimum price, and maximum price.
+   *
+   * @returns {Product[]} An array of products that match the selected filters.
+   */
+  /**
+   * Computed property que obtiene una lista de productos filtrados
+   * según la categoría seleccionada, la calificación, el precio mínimo
+   * y el precio máximo.
+   *
+   * @returns {Product[]} Lista de productos filtrados.
+   */
   products = computed(() =>
     this.productService.getByFilters({
       category: this.selectedCategory(),
@@ -69,6 +101,14 @@ export class ProductsComponent implements OnInit, OnChanges {
   );
   pageProducts!: Product[];
 
+  /**
+   * Responde a los cambios en las propiedades de entrada del componente.
+   *
+   * @param changes - Un objeto de pares clave-valor donde la clave es el nombre de la propiedad de entrada y el valor es una instancia de `SimpleChange`.
+   *
+   * Este método verifica si alguna de las siguientes propiedades de entrada ha cambiado: `rating`, `minPrice`, `category`, `maxPrice`, `page` o `sortBy`.
+   * Si alguna de estas propiedades ha cambiado, obtiene la lista actualizada de productos, los ordena según la propiedad `sortBy` (por defecto 'most-popular' si `sortBy` no está proporcionado), y actualiza la propiedad `pageProducts` con los productos de la página actual.
+   */
   ngOnChanges(changes: SimpleChanges): void {
     const { rating, minPrice, category, maxPrice, page, sortBy } = changes;
 
@@ -117,6 +157,7 @@ export class ProductsComponent implements OnInit, OnChanges {
           maxPrice: this.selectedMaxPrice(),
           sortBy: this.sortBy(),
           page,
+          searchTerm: this.searchTerm(),
         },
       });
     });
