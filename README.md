@@ -56,7 +56,7 @@ Esta es una plantilla de sitio web de comercio electrónico totalmente gratuita 
 ### Clona el repositorio
 
 ```bash
-git clone https://github.com/CarMi0Proggramer/e-commerce-demo-1.git
+git clone https://github.com/ThemeMarket/e-commerce-demo-1.git
 ```
 
 ### Dirígete al proyecto
