@@ -62,7 +62,6 @@ export class ProductsComponent implements OnInit, OnChanges {
   );
   selectedSearchTerm = '';
 
-
   /**
    * Computed property que obtiene una lista de productos filtrados
    * según la categoría seleccionada, la calificación, el precio mínimo
@@ -93,9 +92,18 @@ export class ProductsComponent implements OnInit, OnChanges {
    * Si alguna de estas propiedades ha cambiado, obtiene la lista actualizada de productos, los ordena según la propiedad `sortBy` (por defecto 'most-popular' si `sortBy` no está proporcionado), y actualiza la propiedad `pageProducts` con los productos de la página actual.
    */
   ngOnChanges(changes: SimpleChanges): void {
-    const { rating, minPrice, category, maxPrice, page, sortBy, searchTerm } = changes;
+    const { rating, minPrice, category, maxPrice, page, sortBy, searchTerm } =
+      changes;
 
-    if (rating || minPrice || category || maxPrice || page || sortBy || searchTerm) {
+    if (
+      rating ||
+      minPrice ||
+      category ||
+      maxPrice ||
+      page ||
+      sortBy ||
+      searchTerm
+    ) {
       this.products().subscribe((products) => {
         const sortedProducts = this.productService.sortBy(
           products,
@@ -149,20 +157,45 @@ export class ProductsComponent implements OnInit, OnChanges {
     this.updateProducts();
   }
 
+  /**
+   * Maneja el cambio del término de búsqueda.
+   * Actualiza el término de búsqueda seleccionado, emite el evento de cambio de término de búsqueda,
+   * y recarga la primera página de la lista de productos.
+   *
+   * @param newSearchTerm - El nuevo término de búsqueda ingresado por el usuario.
+   */
   onSearchTermChange(newSearchTerm: string) {
     this.selectedSearchTerm = newSearchTerm;
     this.searchTermChangeEvent.emit(newSearchTerm);
     this.loadPage(1);
   }
 
+  /**
+   * Actualiza la lista de productos según los filtros seleccionados y los criterios de ordenación.
+   *
+   * Este método obtiene productos del servicio de productos utilizando los filtros actualmente seleccionados
+   * para categoría, calificación, precio mínimo, precio máximo y término de búsqueda. Luego,
+   * ordena los productos obtenidos según los criterios de ordenación seleccionados (por defecto
+   * 'más-populares' si no se selecciona ningún criterio de ordenación). Finalmente, actualiza la
+   * propiedad `pageProducts` con los productos ordenados y paginados.
+   *
+   * @returns {void}
+   */
   updateProducts() {
-    this.productService.getByFilters({
-      category: this.selectedCategory(),
-      rating: this.selectedRating(),
-      minPrice: this.selectedMinPrice(),
-      maxPrice: this.selectedMaxPrice(),
-      searchTerm: this.selectedSearchTerm,
-    }).subscribe((products) => {
-      const sortedProducts = this.productService.sortBy(products, this.sortBy() ?? 'most-popular');
-      this.pageProducts = this.getPageProducts(sortedProducts); }); }
+    this.productService
+      .getByFilters({
+        category: this.selectedCategory(),
+        rating: this.selectedRating(),
+        minPrice: this.selectedMinPrice(),
+        maxPrice: this.selectedMaxPrice(),
+        searchTerm: this.selectedSearchTerm,
+      })
+      .subscribe((products) => {
+        const sortedProducts = this.productService.sortBy(
+          products,
+          this.sortBy() ?? 'most-popular'
+        );
+        this.pageProducts = this.getPageProducts(sortedProducts);
+      });
+  }
 }
