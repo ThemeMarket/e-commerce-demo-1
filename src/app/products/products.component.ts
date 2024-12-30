@@ -1,10 +1,12 @@
 import {
   Component,
   computed,
+  EventEmitter,
   inject,
   input,
   OnChanges,
   OnInit,
+  Output,
   signal,
   SimpleChanges,
 } from '@angular/core';
@@ -45,6 +47,8 @@ export class ProductsComponent implements OnInit, OnChanges {
   page = input<string>();
   sortBy = input<string>();
 
+  @Output() searchTermChangeEvent: EventEmitter<string> = new EventEmitter();
+
   selectedRating = computed(() => (this.rating() ? Number(this.rating()) : 5));
   selectedMinPrice = computed(() =>
     this.minPrice() ? Number(this.minPrice()) : 0
@@ -56,8 +60,8 @@ export class ProductsComponent implements OnInit, OnChanges {
   selectedPage = computed(() =>
     this.page() ? parseInt(this.page() as string) : 1
   );
+  selectedSearchTerm = '';
 
-  searchTerm = this.productService.getSearchTerm();
 
   /**
    * Computed property que obtiene una lista de productos filtrados
@@ -72,7 +76,7 @@ export class ProductsComponent implements OnInit, OnChanges {
       rating: this.selectedRating(),
       minPrice: this.selectedMinPrice(),
       maxPrice: this.selectedMaxPrice(),
-      searchTerm: this.searchTerm,
+      searchTerm: this.selectedSearchTerm,
     })
   );
   productPages = computed(() =>
@@ -89,9 +93,9 @@ export class ProductsComponent implements OnInit, OnChanges {
    * Si alguna de estas propiedades ha cambiado, obtiene la lista actualizada de productos, los ordena según la propiedad `sortBy` (por defecto 'most-popular' si `sortBy` no está proporcionado), y actualiza la propiedad `pageProducts` con los productos de la página actual.
    */
   ngOnChanges(changes: SimpleChanges): void {
-    const { rating, minPrice, category, maxPrice, page, sortBy } = changes;
+    const { rating, minPrice, category, maxPrice, page, sortBy, searchTerm } = changes;
 
-    if (rating || minPrice || category || maxPrice || page || sortBy) {
+    if (rating || minPrice || category || maxPrice || page || sortBy || searchTerm) {
       this.products().subscribe((products) => {
         const sortedProducts = this.productService.sortBy(
           products,
@@ -107,6 +111,8 @@ export class ProductsComponent implements OnInit, OnChanges {
     setTimeout(() => {
       initFlowbite();
     }, 100);
+
+    this.updateProducts();
   }
 
   private getPageProducts(products: Product[]) {
@@ -136,14 +142,27 @@ export class ProductsComponent implements OnInit, OnChanges {
           maxPrice: this.selectedMaxPrice(),
           sortBy: this.sortBy(),
           page,
-          searchTerm: this.searchTerm,
+          searchTerm: this.selectedSearchTerm,
         },
       });
     });
+    this.updateProducts();
   }
 
   onSearchTermChange(newSearchTerm: string) {
-    this.productService.setSearchTerm(newSearchTerm);
+    this.selectedSearchTerm = newSearchTerm;
+    this.searchTermChangeEvent.emit(newSearchTerm);
     this.loadPage(1);
   }
+
+  updateProducts() {
+    this.productService.getByFilters({
+      category: this.selectedCategory(),
+      rating: this.selectedRating(),
+      minPrice: this.selectedMinPrice(),
+      maxPrice: this.selectedMaxPrice(),
+      searchTerm: this.selectedSearchTerm,
+    }).subscribe((products) => {
+      const sortedProducts = this.productService.sortBy(products, this.sortBy() ?? 'most-popular');
+      this.pageProducts = this.getPageProducts(sortedProducts); }); }
 }

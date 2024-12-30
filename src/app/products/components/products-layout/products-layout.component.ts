@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, signal } from '@angular/core';
 import { SidebarComponent } from "../sidebar/sidebar.component";
 
 @Component({
@@ -7,7 +7,7 @@ import { SidebarComponent } from "../sidebar/sidebar.component";
   templateUrl: './products-layout.component.html',
 })
 export class ProductsLayoutComponent {
-  @Output() searchTermChange = new EventEmitter<string>();
+  @Output() searchTermChange: EventEmitter<string> = new EventEmitter<string>();
 
   /**
    * Maneja el evento de cambio de entrada de búsqueda.
@@ -22,6 +22,7 @@ export class ProductsLayoutComponent {
     const value = inputElement?.value ?? '';
     this.searchTermChange.emit(value);
   }
+
   preventFormSubmit(event: Event) {
     event.preventDefault();
   }
