@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Product, ProductCategory } from '../../shared/models/product';
 import { PRODUCTS_MOCK } from '../../mocks/products';
 import { Observable, of } from 'rxjs';
@@ -19,6 +19,7 @@ export class ProductService {
   sortProductsStrategyFactory = inject(SortProductsStrategyFactory);
 
   products: Product[] = PRODUCTS_MOCK;
+  private searchTerm = signal<string>('');
 
   getAll(): Observable<Product[]> {
     return of(this.products);
@@ -27,6 +28,14 @@ export class ProductService {
   getById(id: string): Observable<Product | undefined> {
     const product = this.products.find((product) => product.id === id);
     return of(product);
+  }
+
+  setSearchTerm(term: string) {
+    this.searchTerm.set(term);
+  }
+
+  getSearchTerm() {
+    return this.searchTerm();
   }
 
   /**

@@ -57,30 +57,8 @@ export class ProductsComponent implements OnInit, OnChanges {
     this.page() ? parseInt(this.page() as string) : 1
   );
 
-  searchTerm = signal<string>('');
+  searchTerm = this.productService.getSearchTerm();
 
-  /**
-   * Maneja el evento de cambio de entrada de búsqueda.
-   * 
-   * @param event - El evento de entrada que se desencadena cuando cambia el término de búsqueda.
-   * 
-   * Este método extrae el valor del elemento de entrada, actualiza el término de búsqueda,
-   * y recarga la primera página de resultados.
-   */
-  onSearchChange(event: Event) {
-    const inputElement = event.target as HTMLInputElement;
-    const value = inputElement?.value ?? '';
-    this.searchTerm.set(value);
-    this.loadPage(1); 
-  }
-  
-
-  /**
-   * A computed property that retrieves a list of products based on the selected filters.
-   * The filters include category, rating, minimum price, and maximum price.
-   *
-   * @returns {Product[]} An array of products that match the selected filters.
-   */
   /**
    * Computed property que obtiene una lista de productos filtrados
    * según la categoría seleccionada, la calificación, el precio mínimo
@@ -94,6 +72,7 @@ export class ProductsComponent implements OnInit, OnChanges {
       rating: this.selectedRating(),
       minPrice: this.selectedMinPrice(),
       maxPrice: this.selectedMaxPrice(),
+      searchTerm: this.searchTerm,
     })
   );
   productPages = computed(() =>
@@ -157,9 +136,14 @@ export class ProductsComponent implements OnInit, OnChanges {
           maxPrice: this.selectedMaxPrice(),
           sortBy: this.sortBy(),
           page,
-          searchTerm: this.searchTerm(),
+          searchTerm: this.searchTerm,
         },
       });
     });
+  }
+
+  onSearchTermChange(newSearchTerm: string) {
+    this.productService.setSearchTerm(newSearchTerm);
+    this.loadPage(1);
   }
 }
