@@ -1,11 +1,10 @@
 import {
   Component,
   computed,
+  effect,
   inject,
   input,
-  OnChanges,
   OnInit,
-  SimpleChanges,
 } from '@angular/core';
 import { initFlowbite } from 'flowbite';
 import { ProductsLayoutComponent } from './components/products-layout/products-layout.component';
@@ -17,7 +16,10 @@ import { TitleCasePipe } from '@angular/common';
 import { Product, ProductCategory } from '../shared/models/product';
 import { FormatCategoryPipe } from '../shared/pipes/format-category.pipe';
 import { map } from 'rxjs';
-import { getProductPages, MAX_PRODUCTS_PER_PAGE } from '../utils/pagination';
+import {
+  getProductsOfTheCurrentPage,
+  getTotalProductPages,
+} from '../utils/pagination';
 import { ProductLoadingComponent } from '../shared/components/product-loading/product-loading.component';
 
 @Component({
@@ -33,7 +35,7 @@ import { ProductLoadingComponent } from '../shared/components/product-loading/pr
   ],
   templateUrl: './products.component.html',
 })
-export class ProductsComponent implements OnInit, OnChanges {
+export class ProductsComponent implements OnInit {
   productService = inject(ProductService);
   router = inject(Router);
 
@@ -43,45 +45,43 @@ export class ProductsComponent implements OnInit, OnChanges {
   category = input<ProductCategory>();
   page = input<string>();
   sortBy = input<string>();
+  searchTerm = input<string>();
 
-  selectedRating = computed(() => (this.rating() ? Number(this.rating()) : 5));
-  selectedMinPrice = computed(() =>
-    this.minPrice() ? Number(this.minPrice()) : 0
-  );
-  selectedMaxPrice = computed(() =>
-    this.maxPrice() ? Number(this.maxPrice()) : 3500
-  );
-  selectedCategory = computed(() => this.category());
-  selectedPage = computed(() =>
-    this.page() ? parseInt(this.page() as string) : 1
+  queryParams = computed(() => ({
+    rating: this.rating() ? Number(this.rating()) : 5,
+    minPrice: this.minPrice() ? Number(this.minPrice()) : 0,
+    maxPrice: this.maxPrice() ? Number(this.maxPrice()) : 3500,
+    category: this.category(),
+    sortBy: this.sortBy(),
+    searchTerm: this.searchTerm(),
+    page: this.page() ? parseInt(this.page() as string) : 1,
+  }));
+
+  private readonly filteredProducts = computed(() =>
+    this.productService.getByFilters(this.queryParams())
   );
 
-  products = computed(() =>
-    this.productService.getByFilters({
-      category: this.selectedCategory(),
-      rating: this.selectedRating(),
-      minPrice: this.selectedMinPrice(),
-      maxPrice: this.selectedMaxPrice(),
-    })
+  totalProductPages = computed(() =>
+    this.filteredProducts().pipe(
+      map((products) => getTotalProductPages(products))
+    )
   );
-  productPages = computed(() =>
-    this.products().pipe(map((products) => getProductPages(products)))
-  );
-  pageProducts!: Product[];
+  products!: Product[];
 
-  ngOnChanges(changes: SimpleChanges): void {
-    const { rating, minPrice, category, maxPrice, page, sortBy } = changes;
-
-    if (rating || minPrice || category || maxPrice || page || sortBy) {
-      this.products().subscribe((products) => {
+  constructor() {
+    effect(() => {
+      this.filteredProducts().subscribe((filteredProducts) => {
         const sortedProducts = this.productService.sortBy(
-          products,
+          filteredProducts,
           this.sortBy() ?? 'most-popular'
         );
 
-        this.pageProducts = this.getPageProducts(sortedProducts);
+        this.products = getProductsOfTheCurrentPage(
+          sortedProducts,
+          this.queryParams().page
+        );
       });
-    }
+    });
   }
 
   ngOnInit(): void {
@@ -90,34 +90,13 @@ export class ProductsComponent implements OnInit, OnChanges {
     }, 100);
   }
 
-  private getPageProducts(products: Product[]) {
-    const currentPage = this.page() ? parseInt(this.page() as string) : 1;
-    const lastIndex = currentPage * MAX_PRODUCTS_PER_PAGE;
-    const initialIndex = lastIndex - MAX_PRODUCTS_PER_PAGE;
-    const pageProducts = [];
-
-    for (let i = 0; i < MAX_PRODUCTS_PER_PAGE; i++) {
-      const product = products[i + initialIndex];
-
-      if (product) pageProducts.push(product);
-    }
-
-    return pageProducts;
-  }
-
   loadPage(page: number) {
-    this.productPages().subscribe((pages) => {
+    this.totalProductPages().subscribe((pages) => {
       if (!pages.includes(page)) return;
 
       this.router.navigate(['/products'], {
-        queryParams: {
-          category: this.selectedCategory(),
-          rating: this.selectedRating(),
-          minPrice: this.selectedMinPrice(),
-          maxPrice: this.selectedMaxPrice(),
-          sortBy: this.sortBy(),
-          page,
-        },
+        queryParams: { page },
+        queryParamsHandling: 'merge',
       });
     });
   }

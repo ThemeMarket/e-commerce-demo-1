@@ -1,16 +1,8 @@
-import {
-  Component,
-  computed,
-  inject,
-  input,
-  OnChanges,
-  signal,
-  SimpleChanges,
-} from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, effect, inject, OnInit, signal } from '@angular/core';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ProductService } from '../../../core/services/product.service';
 import { ProductCategory } from '../../../shared/models/product';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
@@ -18,46 +10,39 @@ import { AsyncPipe } from '@angular/common';
   imports: [AsyncPipe, RouterLink],
   templateUrl: './filters-dropdown.component.html',
 })
-export class FiltersDropdownComponent implements OnChanges {
+export class FiltersDropdownComponent implements OnInit {
   productService = inject(ProductService);
-
-  selectedCategory = input<ProductCategory>();
-  selectedRating = input<number>();
-  selectedMinPrice = input<number>();
-  selectedMaxPrice = input<number>();
+  route = inject(ActivatedRoute);
 
   minPrice = signal<number>(0);
   maxPrice = signal<number>(3500);
   rating = signal<number>(5);
   category = signal<ProductCategory>(ProductCategory.ALL);
 
-  results = computed(() =>
-    this.productService
-      .getByFilters({
-        category: this.category(),
-        rating: this.rating(),
-        minPrice: this.minPrice(),
-        maxPrice: this.maxPrice(),
-      })
-      .pipe(map((products) => products.length))
-  );
+  results!: Observable<number>;
 
-  ngOnChanges(changes: SimpleChanges): void {
-    const {
-      selectedCategory,
-      selectedMaxPrice,
-      selectedMinPrice,
-      selectedRating,
-    } = changes;
+  constructor() {
+    effect(() => {
+      this.results = this.productService
+        .getByFilters({
+          category: this.category(),
+          minPrice: this.minPrice(),
+          maxPrice: this.maxPrice(),
+          rating: this.rating(),
+        })
+        .pipe(map((products) => products.length));
+    });
+  }
 
-    if (
-      selectedCategory ||
-      selectedMaxPrice ||
-      selectedMinPrice ||
-      selectedRating
-    ) {
-      this.setSelectedValues();
-    }
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      const { minPrice, maxPrice, rating, category } = params;
+
+      this.minPrice.set(minPrice ? Number(minPrice) : 0);
+      this.maxPrice.set(maxPrice ? Number(maxPrice) : 3500);
+      this.rating.set(rating ? Number(rating) : 5);
+      this.category.set(category ? category : ProductCategory.ALL);
+    });
   }
 
   updateMinPrice(e: Event) {
@@ -76,17 +61,5 @@ export class FiltersDropdownComponent implements OnChanges {
 
   updateCategory(category: string) {
     this.category.set(category as ProductCategory);
-  }
-
-  setSelectedValues() {
-    const selectedCategory = this.selectedCategory() ?? ProductCategory.ALL;
-    const selectedRating = this.selectedRating() ?? 5;
-    const selectedMinPrice = this.selectedMinPrice() ?? 0;
-    const selectedMaxPrice = this.selectedMaxPrice() ?? 3500;
-
-    this.category.set(selectedCategory);
-    this.rating.set(selectedRating);
-    this.minPrice.set(selectedMinPrice);
-    this.maxPrice.set(selectedMaxPrice);
   }
 }
