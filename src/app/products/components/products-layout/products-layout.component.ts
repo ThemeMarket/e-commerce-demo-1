@@ -14,9 +14,11 @@ export class ProductsLayoutComponent {
   searchTerm = '';
 
   search() {
-    this.router.navigate([], {
-      queryParams: { searchTerm: this.searchTerm },
-      queryParamsHandling: 'merge',
-    });
+    if (this.searchTerm) {
+      this.router.navigate([], {
+        queryParams: { searchTerm: this.searchTerm },
+        queryParamsHandling: 'merge',
+      });
+    }
   }
 }
