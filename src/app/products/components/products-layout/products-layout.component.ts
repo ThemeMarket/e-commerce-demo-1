@@ -1,29 +1,22 @@
-import { Component, EventEmitter, Output, signal } from '@angular/core';
-import { SidebarComponent } from "../sidebar/sidebar.component";
+import { Component, inject } from '@angular/core';
+import { SidebarComponent } from '../sidebar/sidebar.component';
+import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-products-layout',
-  imports: [SidebarComponent],
+  imports: [SidebarComponent, FormsModule],
   templateUrl: './products-layout.component.html',
 })
 export class ProductsLayoutComponent {
-  @Output() searchTermChange: EventEmitter<string> = new EventEmitter<string>();
+  router = inject(Router);
 
-  /**
-   * Maneja el evento de cambio de entrada de búsqueda.
-   *
-   * Este método se activa cuando el usuario escribe en el campo de entrada de búsqueda.
-   * Extrae el valor de entrada y lo emite a través del emisor de eventos `searchTermChange`.
-   *
-   * @param event - El evento de cambio de entrada.
-   */
-  onSearchChange(event: Event) {
-    const inputElement = event.target as HTMLInputElement;
-    const value = inputElement?.value ?? '';
-    this.searchTermChange.emit(value);
-  }
+  searchTerm = '';
 
-  preventFormSubmit(event: Event) {
-    event.preventDefault();
+  search() {
+    this.router.navigate([], {
+      queryParams: { searchTerm: this.searchTerm },
+      queryParamsHandling: 'merge',
+    });
   }
 }

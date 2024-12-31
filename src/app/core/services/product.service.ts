@@ -1,4 +1,4 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Product, ProductCategory } from '../../shared/models/product';
 import { PRODUCTS_MOCK } from '../../mocks/products';
 import { Observable, of } from 'rxjs';
@@ -17,9 +17,7 @@ interface ProductFilterOptions {
 })
 export class ProductService {
   sortProductsStrategyFactory = inject(SortProductsStrategyFactory);
-
   products: Product[] = PRODUCTS_MOCK;
-  private searchTerm = signal<string>('');
 
   getAll(): Observable<Product[]> {
     return of(this.products);
@@ -28,14 +26,6 @@ export class ProductService {
   getById(id: string): Observable<Product | undefined> {
     const product = this.products.find((product) => product.id === id);
     return of(product);
-  }
-
-  setSearchTerm(term: string) {
-    this.searchTerm.set(term);
-  }
-
-  getSearchTerm() {
-    return this.searchTerm();
   }
 
   /**
@@ -59,8 +49,13 @@ export class ProductService {
       if (minPrice && product.price < minPrice) matched = false;
       if (maxPrice && product.price > maxPrice) matched = false;
       if (rating && product.rating > rating) matched = false;
-      if (searchTerm && !product.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-        !product.description.toLowerCase().includes(searchTerm.toLowerCase())) matched = false;
+      if (
+        searchTerm &&
+        !product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      ) {
+        matched = false;
+      }
+
       return matched;
     });
     return of(filteredProducts);

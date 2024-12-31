@@ -93,8 +93,6 @@
           </h2>
         </div>
         <div class="flex items-center space-x-4">
-          <!-- <input type="text" placeholder="Search for products..." /> -->
-
           <button
             data-modal-toggle="filterModal"
             data-modal-target="filterModal"
@@ -254,16 +252,13 @@
       <div
         class="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4"
       >
-        @defer {
-          @for (product of pageProducts; track $index) {
-            <app-product-card [product]="product" />
-          }
-        }
-        @placeholder(minimum 200ms) {
-          <app-product-loading />
-          <app-product-loading />
-          <app-product-loading />
-          <app-product-loading />
+        @defer { @for (product of pageProducts; track $index) {
+        <app-product-card [product]="product" />
+        } } @placeholder(minimum 200ms) {
+        <app-product-loading />
+        <app-product-loading />
+        <app-product-loading />
+        <app-product-loading />
         }
       </div>
       <nav class="mx-auto w-fit" aria-label="Page navigation example">
@@ -330,7 +325,4 @@
       [selectedRating]="selectedRating()"
     />
   </section>
-  <app-products-layout (searchTermChange)="onSearchTermChange($event)"></app-products-layout>
-
-
-
+</app-products-layout>

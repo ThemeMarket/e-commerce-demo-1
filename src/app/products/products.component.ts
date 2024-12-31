@@ -1,13 +1,10 @@
 import {
   Component,
   computed,
-  EventEmitter,
   inject,
   input,
   OnChanges,
   OnInit,
-  Output,
-  signal,
   SimpleChanges,
 } from '@angular/core';
 import { initFlowbite } from 'flowbite';
@@ -20,7 +17,10 @@ import { TitleCasePipe } from '@angular/common';
 import { Product, ProductCategory } from '../shared/models/product';
 import { FormatCategoryPipe } from '../shared/pipes/format-category.pipe';
 import { map } from 'rxjs';
-import { getProductPages, MAX_PRODUCTS_PER_PAGE } from '../utils/pagination';
+import {
+  getTotalProductPages,
+  MAX_PRODUCTS_PER_PAGE,
+} from '../utils/pagination';
 import { ProductLoadingComponent } from '../shared/components/product-loading/product-loading.component';
 
 @Component({
@@ -46,8 +46,7 @@ export class ProductsComponent implements OnInit, OnChanges {
   category = input<ProductCategory>();
   page = input<string>();
   sortBy = input<string>();
-
-  @Output() searchTermChangeEvent: EventEmitter<string> = new EventEmitter();
+  searchTerm = input<string>();
 
   selectedRating = computed(() => (this.rating() ? Number(this.rating()) : 5));
   selectedMinPrice = computed(() =>
@@ -60,73 +59,44 @@ export class ProductsComponent implements OnInit, OnChanges {
   selectedPage = computed(() =>
     this.page() ? parseInt(this.page() as string) : 1
   );
-  selectedSearchTerm = '';
 
-  /**
-   * Computed property que obtiene una lista de productos filtrados
-   * según la categoría seleccionada, la calificación, el precio mínimo
-   * y el precio máximo.
-   *
-   * @returns {Product[]} Lista de productos filtrados.
-   */
   products = computed(() =>
     this.productService.getByFilters({
       category: this.selectedCategory(),
       rating: this.selectedRating(),
       minPrice: this.selectedMinPrice(),
       maxPrice: this.selectedMaxPrice(),
-      searchTerm: this.selectedSearchTerm,
+      searchTerm: this.searchTerm(),
     })
   );
-  productPages = computed(() =>
-    this.products().pipe(map((products) => getProductPages(products)))
+
+  totalProductPages = computed(() =>
+    this.products().pipe(map((products) => getTotalProductPages(products)))
   );
+  /* Products to show in the current page */
   pageProducts!: Product[];
 
-  /**
-   * Responde a los cambios en las propiedades de entrada del componente.
-   *
-   * @param changes - Un objeto de pares clave-valor donde la clave es el nombre de la propiedad de entrada y el valor es una instancia de `SimpleChange`.
-   *
-   * Este método verifica si alguna de las siguientes propiedades de entrada ha cambiado: `rating`, `minPrice`, `category`, `maxPrice`, `page` o `sortBy`.
-   * Si alguna de estas propiedades ha cambiado, obtiene la lista actualizada de productos, los ordena según la propiedad `sortBy` (por defecto 'most-popular' si `sortBy` no está proporcionado), y actualiza la propiedad `pageProducts` con los productos de la página actual.
-   */
   ngOnChanges(changes: SimpleChanges): void {
-    const { rating, minPrice, category, maxPrice, page, sortBy, searchTerm } =
-      changes;
+    this.products().subscribe((products) => {
+      const sortedProducts = this.productService.sortBy(
+        products,
+        this.sortBy() ?? 'most-popular'
+      );
 
-    if (
-      rating ||
-      minPrice ||
-      category ||
-      maxPrice ||
-      page ||
-      sortBy ||
-      searchTerm
-    ) {
-      this.products().subscribe((products) => {
-        const sortedProducts = this.productService.sortBy(
-          products,
-          this.sortBy() ?? 'most-popular'
-        );
-
-        this.pageProducts = this.getPageProducts(sortedProducts);
-      });
-    }
+      this.pageProducts = this.getPageProducts(sortedProducts);
+    });
   }
 
   ngOnInit(): void {
     setTimeout(() => {
       initFlowbite();
     }, 100);
-
-    this.updateProducts();
   }
 
   private getPageProducts(products: Product[]) {
     const currentPage = this.page() ? parseInt(this.page() as string) : 1;
-    const lastIndex = currentPage * MAX_PRODUCTS_PER_PAGE;
-    const initialIndex = lastIndex - MAX_PRODUCTS_PER_PAGE;
+    const initialIndex =
+      currentPage * MAX_PRODUCTS_PER_PAGE - MAX_PRODUCTS_PER_PAGE;
     const pageProducts = [];
 
     for (let i = 0; i < MAX_PRODUCTS_PER_PAGE; i++) {
@@ -139,7 +109,7 @@ export class ProductsComponent implements OnInit, OnChanges {
   }
 
   loadPage(page: number) {
-    this.productPages().subscribe((pages) => {
+    this.totalProductPages().subscribe((pages) => {
       if (!pages.includes(page)) return;
 
       this.router.navigate(['/products'], {
@@ -149,53 +119,10 @@ export class ProductsComponent implements OnInit, OnChanges {
           minPrice: this.selectedMinPrice(),
           maxPrice: this.selectedMaxPrice(),
           sortBy: this.sortBy(),
+          searchTerm: this.searchTerm(),
           page,
-          searchTerm: this.selectedSearchTerm,
         },
       });
     });
-    this.updateProducts();
-  }
-
-  /**
-   * Maneja el cambio del término de búsqueda.
-   * Actualiza el término de búsqueda seleccionado, emite el evento de cambio de término de búsqueda,
-   * y recarga la primera página de la lista de productos.
-   *
-   * @param newSearchTerm - El nuevo término de búsqueda ingresado por el usuario.
-   */
-  onSearchTermChange(newSearchTerm: string) {
-    this.selectedSearchTerm = newSearchTerm;
-    this.searchTermChangeEvent.emit(newSearchTerm);
-    this.loadPage(1);
-  }
-
-  /**
-   * Actualiza la lista de productos según los filtros seleccionados y los criterios de ordenación.
-   *
-   * Este método obtiene productos del servicio de productos utilizando los filtros actualmente seleccionados
-   * para categoría, calificación, precio mínimo, precio máximo y término de búsqueda. Luego,
-   * ordena los productos obtenidos según los criterios de ordenación seleccionados (por defecto
-   * 'más-populares' si no se selecciona ningún criterio de ordenación). Finalmente, actualiza la
-   * propiedad `pageProducts` con los productos ordenados y paginados.
-   *
-   * @returns {void}
-   */
-  updateProducts() {
-    this.productService
-      .getByFilters({
-        category: this.selectedCategory(),
-        rating: this.selectedRating(),
-        minPrice: this.selectedMinPrice(),
-        maxPrice: this.selectedMaxPrice(),
-        searchTerm: this.selectedSearchTerm,
-      })
-      .subscribe((products) => {
-        const sortedProducts = this.productService.sortBy(
-          products,
-          this.sortBy() ?? 'most-popular'
-        );
-        this.pageProducts = this.getPageProducts(sortedProducts);
-      });
   }
 }

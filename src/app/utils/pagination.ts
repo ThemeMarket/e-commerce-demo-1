@@ -1,6 +1,6 @@
 export const MAX_PRODUCTS_PER_PAGE = 8;
 
-export function getProductPages(arr: any[]): number[] {
+export function getTotalProductPages(arr: any[]): number[] {
   const pages: number[] = [];
   const length = arr.length / MAX_PRODUCTS_PER_PAGE;
 
