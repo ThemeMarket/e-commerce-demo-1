@@ -47,7 +47,7 @@ export class ProductService {
 
       if (category && product.category !== category) matched = false;
       if (minPrice && product.price < minPrice) matched = false;
-      if (maxPrice && product.price > maxPrice) matched = false;
+      if (maxPrice !== undefined && product.price > maxPrice) matched = false;
       if (rating && product.rating > rating) matched = false;
       if (
         searchTerm &&
