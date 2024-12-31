@@ -1,4 +1,4 @@
-# [E-commerce Demo 1](https://e-commerce-demo-1-seven.vercel.app/)
+# [E-commerce Demo 1](https://e-commerce-demo-1-iota.vercel.app/)
 
 Esta es una plantilla de sitio web de comercio electrónico totalmente gratuita y desarrollado con Angular v19.0.0 y TailwindCSS v3.4.16 que puedes utilizar para comenzar a desarrollar tu producto rápidamente.
 
@@ -56,7 +56,7 @@ Esta es una plantilla de sitio web de comercio electrónico totalmente gratuita 
 ### Clona el repositorio
 
 ```bash
-git clone https://github.com/CarMi0Proggramer/e-commerce-demo-1.git
+git clone https://github.com/ThemeMarket/e-commerce-demo-1.git
 ```
 
 ### Dirígete al proyecto
