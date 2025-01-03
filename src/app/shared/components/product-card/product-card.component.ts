@@ -1,8 +1,12 @@
 import { Component, computed, input, OnInit } from '@angular/core';
 import { Product } from '../../models/product';
-import { CurrencyPipe, NgOptimizedImage, PercentPipe } from '@angular/common';
+import {
+  CurrencyPipe,
+  DecimalPipe,
+  NgOptimizedImage,
+  PercentPipe,
+} from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { RatingPipe } from '../../pipes/rating.pipe';
 import { Cart } from '../../models/cart';
 import { initTooltips } from 'flowbite';
 
@@ -13,7 +17,7 @@ import { initTooltips } from 'flowbite';
     NgOptimizedImage,
     RouterLink,
     PercentPipe,
-    RatingPipe,
+    DecimalPipe,
   ],
   templateUrl: './product-card.component.html',
 })
