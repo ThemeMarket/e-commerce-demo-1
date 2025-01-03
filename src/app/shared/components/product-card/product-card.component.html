@@ -124,7 +124,7 @@
       </div>
 
       <p class="text-sm font-medium text-gray-900">
-        {{ product().rating | rating }}
+        {{ product().rating | number : "1.1-1" }}
       </p>
       <p class="text-sm font-medium text-gray-500">({{ product().reviews }})</p>
     </div>
